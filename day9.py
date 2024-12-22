@@ -2,6 +2,7 @@
 
 import sys
 from operator import itemgetter
+from itertools import permutations
 
 
 def parse_routes(lines):
@@ -25,7 +26,6 @@ def shortest_route(route_map):
     places.remove(start)
     places.remove(end)
     route = [start, end]
-    print('start', start, end, dist)
 
     while places:
         fronts = []
@@ -47,8 +47,6 @@ def shortest_route(route_map):
         front_dist, front = fronts[0]
         back_dist, back = backs[0]
 
-        print(front_dist, back_dist, front, back)
-
         if front_dist < back_dist:
             route.insert(0, front)
             places.remove(front)
@@ -61,6 +59,30 @@ def shortest_route(route_map):
             end = back
 
     return route, total_dist
+
+
+def longest_route(route_map):
+    places = set()
+    for start, end in route_map:
+        places.add(start)
+        places.add(end)
+
+
+    found = None
+    max_dist = 0
+    for route in permutations(places):
+        dist = 0
+        for i in range(len(route) - 1):
+            start, end = route[i:i+2]
+            dist += route_map[(start, end)]
+
+        if dist > max_dist:
+            max_dist = dist
+            found = route
+            
+            print(max_dist, found)
+
+    return found, max_dist
 
 
 def route_dist(route, route_map):
@@ -81,11 +103,21 @@ def part1(lines):
 
 
     route, dist = shortest_route(route_map)
-    print(route, dist)
     return dist
 
+
 def part2(lines):
-    pass
+    routes = parse_routes(lines)
+
+    route_map = {}
+    for start, end, dist in routes:
+        route_map[(start, end)] = dist
+        route_map[(end, start)] = dist
+
+
+    route, dist = longest_route(route_map)
+    print(route)
+    return dist
 
 
 def main():
