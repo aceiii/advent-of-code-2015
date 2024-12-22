@@ -26,15 +26,16 @@ def look_and_say(line):
 
 def part1(lines):
     res = [int(c,10) for c in lines[0]]
-    print(res)
     for _ in range(40):
         res = look_and_say(res)
-        #print("".join(map(str,res)))
     return len(res)
 
 
 def part2(lines):
-    pass
+    res = [int(c,10) for c in lines[0]]
+    for _ in range(50):
+        res = look_and_say(res)
+    return len(res)
 
 
 def main():
