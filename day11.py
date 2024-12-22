@@ -86,7 +86,15 @@ def part1(lines):
 
 
 def part2(lines):
-    pass
+    password = parse_password(lines[0].strip())
+    count = 0
+    while True:
+        password = next_password(password)
+        if is_valid(password):
+            count += 1
+            if count == 2:
+                break
+    return password_to_str(password)
 
 
 def main():
