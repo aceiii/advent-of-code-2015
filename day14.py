@@ -38,8 +38,53 @@ def part1(lines):
     return distances[0]
 
 
+class Deer:
+    def __init__(self, speed, time, rest):
+        self.speed = speed
+        self.time = time
+        self.rest = rest
+        self.state = 0
+        self.counter = time
+        self.distance = 0
+        self.points = 0
+
+    def update(self):
+        self.counter -= 1
+        if self.state == 0:
+            self.distance += self.speed
+
+        if self.counter == 0:
+            if self.state == 0:
+                self.counter = self.rest
+                self.state = 1
+            else:
+                self.counter = self.time
+                self.state = 0
+
+    def add_point(self):
+        self.points += 1
+
+
+def update_deers(deers):
+    for deer in deers:
+        deer.update()
+    return sorted(deers, key=lambda d: d.distance, reverse=True)
+
+
 def part2(lines):
-    pass
+    target = 2503
+    deers = [Deer(*deer) for deer in parse_reindeer(lines).values()]
+    while target:
+        target -= 1
+        deers = update_deers(deers)
+        prev = deers[0].distance
+        for deer in deers:
+            if deer.distance < prev:
+                break
+            deer.add_point()
+
+    deers = sorted(deers, key=lambda d: d.points, reverse=True)
+    return deers[0].points
 
 
 def main():
