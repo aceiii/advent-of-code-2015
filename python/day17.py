@@ -22,9 +22,24 @@ def part1(lines):
     return count(vals, N, 0)
 
 
+def count2(vals, target, idx, n = 0):
+    if target == 0:
+        return [n]
+
+    res = []
+    for j in range(idx, len(vals)):
+        val = vals[j]
+        if val <= target:
+            ans = count2(vals, target-val, j+1, n + 1)
+            res += ans
+    return res
+
+
 def part2(lines):
+    N = 150
     vals = list(sorted((int(line.strip(),10) for line in lines), reverse=True))
-    pass
+    res = count2(vals, N, 0)
+    return res.count(min(res))
 
 
 def main():
