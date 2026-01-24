@@ -18,7 +18,19 @@ def part1(lines):
 
 
 def part2(lines):
-    pass
+    target = int(lines[0],10)
+    arr = [0] * (target//10)
+    n = len(arr)
+    for i in range(1, n):
+        j = i
+        k = i * 11
+        m = 0
+        while j < n and m < 50:
+            arr[j] += k
+            j += i
+            m += 1
+        if arr[i] >= target:
+            return i
 
 
 def main():
