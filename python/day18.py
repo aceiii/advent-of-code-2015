@@ -80,8 +80,25 @@ def part1(lines):
     return count_on(state, dims)
 
 
+def turn_on_corners(state, dims):
+    width, height = dims
+    tiles = [(0, 0), (width-1, 0), (width-1, height-1), (0, height-1)]
+    for pos in tiles:
+        state[pos] = True
+
+
 def part2(lines):
-    pass
+    N = 100
+    state, dims = parse(lines)
+    turn_on_corners(state, dims)
+    print_grid(state, dims, 'Initial state')
+
+    for i in range(N):
+        state = update(state, dims)
+        turn_on_corners(state, dims)
+        #print_grid(state, dims, f'After {i+1} Steps')
+
+    return count_on(state, dims)
 
 
 def main():
