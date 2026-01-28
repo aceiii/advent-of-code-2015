@@ -36,8 +36,7 @@ def step(regs, instr):
     return 1
 
 
-def run(instrs):
-    regs = {'a': 0, 'b': 0}
+def run(regs, instrs):
     ip = 0
     while ip >= 0 and ip < len(instrs):
         ip += step(regs, instrs[ip])
@@ -46,12 +45,16 @@ def run(instrs):
 
 def part1(lines):
     instrs = parse(lines)
-    regs = run(instrs)
+    regs = {'a': 0, 'b': 0}
+    run(regs, instrs)
     return regs['b']
 
 
 def part2(lines):
-    pass
+    instrs = parse(lines)
+    regs = {'a': 1, 'b': 0}
+    run(regs, instrs)
+    return regs['b']
 
 
 def main():
